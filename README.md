@@ -8,4 +8,12 @@ Estar en el Tec de Monterrey muchas veces puede llegar a ser retador por todos l
 Me he dado cuenta que mucha gente o no sabe citar en APA, o por todas las versiones diferentes que existen, lo hacen de forma distinta. Es por eso, que voy a crear un programa, que te hace la refrencia del APA y la cita, dependiendo de qué tipo de fuente sea, de acuerdo a la 7º edición; la más nueva y reciente. Me parece muy interesante ya que puedo retar mis capacidades para programar, al mismo tiempo que de cierta forma ayudar a mi universidad. Citar tus fuentes es algo ético que se debe de hacer, y esta es mi forma de ayudar.  
 
 ### Pasos del Algoritmo
-Insertar aquí
+1. Estado inicial: Pedir al usuario que tipo de fuente le gustaría citar. Asegurar que el tipo de dato sea correcto con un while loop. 
+
+2. En base a eso, pedir los datos del libro, página web, vídeo, enciclopedia, etc. Guardar esos datos en variables fáciles de recordar. 
+
+3. Mandar cada dato a una función que procese ese dato. Por ejemplo le fecha se va a una función que formatea los datos y regresa la fecha ya lista para incorporar a la referencia. Esto se va a hacer por cada tipo de dato, autor, autores, fecha, páginas, link, título, organización, etc. 
+
+4. Usar una función por tipo de fuente, para que también este organizado el código. Por ejemplo, la función del libro usa las funciones anteriores para formatear el APA, donde los datos van a ser guardardados en una lista al final en orden (es lo que va a regresar la función). Esto va a permitir poder usar un for loop, para imprimir y enseñarle al usuario la referencia sin escribir muchas líneas de código. En resumen, va a haber funciones que formatean los elementos, y funciones que te juntan la referencia en la lista. 
+
+5. Estado final: Agradecerle al usuario y después de enseñar la referencia terminar el programa. 
