@@ -52,4 +52,4 @@ Pseudocódigo:
     print(apa)
     print("¡Gracias por usar el programa!")
     
-* Nota: El Pseudocódigo está muy simplificadoy solo incluye un tipo de dato y en específico un tipo de fuente, esto para simplicidad. Todos los elementos van a llevar el orden de arriba :)
+* Nota: El Pseudocódigo está muy simplificado y solo incluye un tipo de dato y en específico un tipo de fuente. Esto se hace para simplicidad. Todos los elementos van a llevar el orden de arriba :)
