@@ -86,15 +86,13 @@ def libro():
     '''
     Función que usa otras funciones para juntar la referencia de un libro
     '''
-    datos = inputs()
-    año_usuario, mes_usuario, dia_usuario, nombre_usuario, apellido_usuario, titulo_usuario = datos
+    año_usuario, mes_usuario, dia_usuario, nombre_usuario, apellido_usuario, titulo_usuario = inputs()
 
 def video():
     '''
     Función que usa otras funciones para juntar la referencia de un video
     '''
-    datos = inputs()
-    año_usuario, mes_usuario, dia_usuario, nombre_usuario, apellido_usuario, titulo_usuario = datos
+    año_usuario, mes_usuario, dia_usuario, nombre_usuario, apellido_usuario, titulo_usuario = inputs()
 
 
 '''Parte principal del programa'''
