@@ -5,7 +5,7 @@ y arroja al final la referencia y cita como texto
 para que el usuario la pueda usar
 """
 
-'''Función que toma datos del usuario'''
+'''Función que toma datos principales del usuario '''
 
 def inputs():
     '''
