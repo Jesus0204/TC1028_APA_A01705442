@@ -1,7 +1,7 @@
 """
 Proyecto APA python
 El programa le pide información al usuario
-y arroja al final la referencia y cita 
+y arroja al final la referencia y cita como texto
 para que el usuario la pueda usar
 """
 
