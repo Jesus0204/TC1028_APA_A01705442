@@ -5,7 +5,7 @@ y arroja al final la referencia y cita como texto
 para que el usuario la pueda usar
 """
 
-'''Función que toma datos principales del usuario '''
+'''Función que toma datos del usuario'''
 
 def inputs():
     '''
@@ -75,9 +75,8 @@ def web():
     Función que usa otras funciones para juntar la referencia de páginas web
     '''
     # Ver si puedo crear una función para dar a cada dato una variable. Investigar
-    datos = inputs()
-    año_usuario, mes_usuario, dia_usuario, nombre_usuario, apellido_usuario, titulo_usuario = datos
-
+    año_usuario, mes_usuario, dia_usuario, nombre_usuario, apellido_usuario, titulo_usuario = inputs()
+    
     fecha_final = fecha(año_usuario, mes_usuario, dia_usuario)
 
     # Esto es mientras se va incorporando las otras funciones
