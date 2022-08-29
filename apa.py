@@ -62,37 +62,59 @@ def fecha(año, mes, dia):
     elif dia == 0:
         fecha_apa = ("(" + mes_apa + ", " + año_apa + ")")
     elif año != 0 and mes != 0 and dia != 0:
-        fecha_apa = ("(" + mes_apa + " " + dia_apa + ", " + año_apa + ")")
+        fecha_apa = ("(" + mes_apa + " " + dia_apa + ", " + año_apa + ").")
     else:
         fecha_apa = "(Fecha no válida)"
     return fecha_apa
 
+def autor(nombre, apellido):
+    '''
+    Función que te regresa el autor en el formato que se usa en APA.
+    Esto sin importar el tipo de fuente.
+    '''
+    # Use esta página web para saber cómo convertir de ASCII a texto y vice versa 
+    # https://www.programiz.com/python-programming/examples/ascii-character 
+
+    # Si el usuario escrbió el nombre con minúscula, esto sirve para convertirlo a mayúscula
+    nombre_apa = ord(nombre[0])
+    if nombre_apa >= 97 and nombre_apa <= 122:
+        nombre_apa -= 32
+    nombre_apa = chr(nombre_apa)
+
+    apellido_apa = ord(apellido[0])
+    if apellido_apa >= 97 and apellido_apa <= 122:
+        apellido_apa -= 32
+    apellido_apa = chr(apellido_apa)
+
+    # Después de convertir a mayúscula la primera letra, juntar las otras letras del apellido en una variable
+    for letra in range(1, len(apellido)):
+        apellido_apa += apellido[letra]
+
+    autor_apa = (apellido_apa + " , " + nombre_apa + ".")
+
+    return autor_apa
 
 '''Funciones que juntan la referencia por tipo de fuente'''
 
-def web():
+def web(fecha, autor):
     '''
     Función que usa otras funciones para juntar la referencia de páginas web
     '''
-    # Ver si puedo crear una función para dar a cada dato una variable. Investigar
-    año_usuario, mes_usuario, dia_usuario, nombre_usuario, apellido_usuario, titulo_usuario = inputs()
-    
-    fecha_final = fecha(año_usuario, mes_usuario, dia_usuario)
-
     # Esto es mientras se va incorporando las otras funciones
-    print("\nTu fecha en APA se vería así:", fecha_final)
+    print("\nTu fecha en APA se vería así:", fecha)
+    print("\nTu autor en APA se vería así:", autor)
 
-def libro():
+def libro(fecha, autor):
     '''
     Función que usa otras funciones para juntar la referencia de un libro
     '''
-    año_usuario, mes_usuario, dia_usuario, nombre_usuario, apellido_usuario, titulo_usuario = inputs()
+    pass
 
-def video():
+def video(fecha, autor):
     '''
     Función que usa otras funciones para juntar la referencia de un video
     '''
-    año_usuario, mes_usuario, dia_usuario, nombre_usuario, apellido_usuario, titulo_usuario = inputs()
+    pass
 
 
 '''Parte principal del programa'''
@@ -114,9 +136,15 @@ while True:
     else:
         break
 
+# Datos de todo tipo de fuente
+año_usuario, mes_usuario, dia_usuario, nombre_usuario, apellido_usuario, titulo_usuario = inputs()
+
+fecha_final = fecha(año_usuario, mes_usuario, dia_usuario)
+autor_final = autor(nombre_usuario, apellido_usuario)
+
 if tipo_de_fuente == 1:
-    web()
+    web(fecha_final, autor_final)
 elif tipo_de_fuente == 2:
-    libro()
+    libro(fecha_final, autor_final)
 elif tipo_de_fuente == 3:
-    video()
+    video(fecha_final, autor_final)
