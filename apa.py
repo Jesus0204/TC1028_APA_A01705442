@@ -7,6 +7,9 @@ para que el usuario la pueda usar
 
 '''Función auxiliares como inputs o de minúsculas a mayúsculas'''
 
+from curses.ascii import isalpha
+
+
 def mayuscula(palabra):
     '''
     Función que devuelve una palabra con la primera letra minúscula como mayúscula usando ASCII
@@ -31,52 +34,58 @@ def inputs():
     Función que toma inputs. Estos datos los tiene todo tipo de fuente. 
     '''
     # Este snippet fue basado de https://stackoverflow.com/questions/5424716/how-to-check-if-string-input-is-a-number
-    # Aquí obligo al usuario a escribir un número para la fecha
+    # Aquí obligo al usuario a escribir un número para la fecha y a escribir algo en el titulo y link
+    año_input = ""
+    mes_input = ""
+    dia_input = ""
+    titulo_input = ""
     while True:
         try:
-            año_input = int(input("\nEscribe el año de tu fuente. Si no tiene escribe 0.\n"))
-            mes_input = int(input("\nEscribe el mes en forma numérica. Por ejemplo Enero es 1. Si no tiene escribe 0.\n"))
-            dia_input = int(input("\nEscribe el dia de tu fuente. Si no tiene escribe 0.\n"))
+            if año_input == "":
+                año_input = int(input("\nEscribe el año de tu fuente. Si no tiene escribe 0.\n"))
+            if mes_input == "":
+                mes_input = int(input("\nEscribe el mes en forma numérica. Por ejemplo Enero es 1. Si no tiene escribe 0.\n"))
+            if dia_input == "":
+                dia_input = int(input("\nEscribe el dia de tu fuente. Si no tiene escribe 0.\n"))
         except ValueError:
             print("Por favor escribe un número :)")
+            continue
+        # Si el usuario no escribio nada pasa esta condición
+        if titulo_input == "":
+            titulo_input = input("\nEscribe el titulo del artículo, trabajo u obra que estas citando.\n")
+            # Este if solo es para imprimirle al usuario que no tiene que dejar vacio lo que escribe.
+            if titulo_input == "":
+                print("Favor de no dejar vacio.")
+            # Poner el continue para volver a empezar el ciclo. Si el usuario escribió algo no pasa la condición de arriba; de otra forma pide el titulo de nuevo.
+            continue
+        link_input = input("\nPor favor escribe el link o DOI de tu fuente. Si no tiene (en el caso de libros) escribe 0.\n")
+        if link_input == "":
+            print("Favor de no dejar vacio.")
             continue
         else:
             break
     
     # Aquí pasa lo contrario, donde aseguro que el texto sea un string
     while True:
-
         nombre_input = input("\nEscribe el primer nombre del autor. Si no tiene escribe 0.\n")
         apellido_input = input("\nEscribe el apellido del autor. Si no tiene escribe 0.\n")
-
-        if nombre_input == "0" or apellido_input == "0":
+        # Aceptar ambos 0
+        if nombre_input == "0" and apellido_input == "0":
             break
-        # Si el input es un número que no sea 0, continuar el ciclo. Basado de la página de abajo
-        # https://betterprogramming.pub/how-you-make-sure-input-is-the-type-you-want-it-to-be-in-python-521f3565a66d
-        elif nombre_input.isdigit() or apellido_input.isdigit():
-            print("\nFavor de no escribir un numero.")
+        # Como no puede haber citas son solo nombre de autor y sin apellido, solo aceptar el nombre con 0.
+        elif nombre_input == "0" and apellido_input.isalpha():
+            break
+        # No aceptar numeros aparte de 0
+        if (nombre_input.isalpha() == False) or (apellido_input.isalpha() == False):
+            print("\nFavor de no dejar vacio y de no escribir un número que no sea 0. También no se pueden escribir espacios.")
+            print("Si escribiste un nombre para el autor, pero 0 en el apellido, no es un autor válido. Favor de intentar de nuevo.")
             continue
-        elif (nombre_input == "") or (apellido_input == ""):
-            print("\nFavor de escribir el nombre u apellido.")
-            continue
-        # Si no volver a pedir los datos
         else: 
             break
     
-    # Obligar que usuario escriba texto
-    while True:
-        titulo_input = input("\nEscribe el titulo del artículo, trabajo u obra que estas citando.\n")
-        if titulo_input == "":
-            print("Favor de no dejar vacio.")
-            continue
-        else:
-            break
-
-    return (año_input, mes_input, dia_input, nombre_input, apellido_input, titulo_input)
+    return (año_input, mes_input, dia_input, nombre_input, apellido_input, titulo_input, link_input)
 
 '''Funciones que procesan datos como fechas o autores'''
-
-# Primero voy a empezar con la fecha, ya que usa operadores
 
 def fecha(año, mes, dia):
     '''
@@ -134,18 +143,29 @@ def autor(nombre, apellido):
 
     return autor_apa
 
+def edicion(num_edicion):
+    '''
+    Función que regresa la edición para libros como se debe insertar en el apa
+    '''
+    edicion_str = str(num_edicion)
+    if num_edicion > 0:
+        edicion_final = "(" + edicion_str + "a ed.). "
+    else: 
+        edicion_final = "0"
+    
+    return edicion_final
+
 '''Funciones que juntan la referencia por tipo de fuente'''
 
-def web(fecha, autor, titulo):
+def web_o_imagen(fecha, autor, titulo, link, tipo_fuente):
     '''
     Función que usa otras funciones para juntar la referencia de páginas web
     '''
     # Pedir input de la organización y del link y obligar que usuario escriba texto
     while True:
-        organizacion_input = input("\nPor favor escribe el titulo de la organización. \
-        Esto sirve si la página no tiene autor, o para incluir despues en la cita. Si no tiene escribe 0\n")
-        link = input("\nPor favor escribe el link de tu fuente.\n")
-        if organizacion_input == "" or link == "":
+        organizacion_input = input("\nPor favor escribe la organización. Esto sirve si la página no tiene autor,\
+        o para incluir despues en la cita. Si no tiene escribe 0\n")
+        if organizacion_input == "":
             print("Favor de no dejar vacio.")
             continue
         else:
@@ -154,44 +174,81 @@ def web(fecha, autor, titulo):
     organizacion = mayuscula(organizacion_input)
     titulo = mayuscula(titulo)
 
-    # Si hay una organización y un autor, ponerla al final de la cita. Usar otra variable porque ya se cambio la original
-    if autor != "0" and organizacion_input != "0":
-        web_apa = autor + " " + fecha + " " + titulo + ". " + organizacion + ". " + link + "."
-    # De otro modo la cita no es válida
-    elif autor == "0" and organizacion_input == "0":
-        web_apa = "Cita no válida. Tiene que tener o autor u organización."
-    # Si no tiene autor hacer la organizacion el autor para que se ponga primero
-    elif autor == "0":
-        web_apa = organizacion + ". " + fecha + " " + titulo + ". " + link + "."
-    # Cita sin organización
-    elif organizacion_input == "0":
-        web_apa = autor + " " + fecha + " " + titulo + ". " + link + "."
+    if link == "0" or (autor == "0" and organizacion == "0"):
+        web_apa = "Referencia no válida. Tiene que link, autor u organización."
+    elif tipo_fuente == 1:
+        # Si hay una organización y un autor, ponerla al final de la cita.
+        if autor != "0" and organizacion != "0":
+            web_apa = autor + " " + fecha + " " + titulo + ". " + organizacion + ". " + link + "."
+        # Si no tiene autor hacer la organizacion el autor para que se ponga primero
+        elif autor == "0":
+            web_apa = organizacion + ". " + fecha + " " + titulo + ". " + link + "."
+        # Cita sin organización
+        elif organizacion == "0":
+            web_apa = autor + " " + fecha + " " + titulo + ". " + link + "."
+    elif tipo_fuente == 4:
+        if autor != "0" and organizacion != "0":
+            web_apa = autor + " " + fecha + " " + titulo + ". " + "[Imagen]. " + organizacion + ". " + link + "."
+        elif autor == "0":
+            web_apa = organizacion + ". " + fecha + " " + titulo + ". " + "[Imagen]. " + link + "."
+        elif organizacion == "0":
+            web_apa = autor + " " + fecha + " " + titulo + ". " + "[Imagen]. " + link + "."
     
     return web_apa
 
-def libro(fecha, autor, titulo):
+def libro(fecha, autor, titulo, link):
     '''
     Función que usa otras funciones para juntar la referencia de un libro
     '''
+    edicion_input = ""
+    # Asegurar inputs
+    while True:
+        # Este snippet fue basado de https://stackoverflow.com/questions/5424716/how-to-check-if-string-input-is-a-number
+        try:
+            if edicion_input == "":
+                edicion_input = int(input("\nEscribe el numero de edicion de tu fuente. Si no tiene escribe 0 o un numero menor a 0.\n"))
+        except ValueError:
+            print("Por favor escribe un número :)")
+            continue
+        editorial_input = input("\nPor favor escribe el editorial del libro. Debe de estar en las primeras páginas.\n")
+        if editorial_input == "":
+            print("Favor de no dejar vacio.")
+            continue
+        else: 
+            break
+
+    edicion_apa = edicion(edicion_input)
+    editorial = mayuscula(editorial_input)
     titulo = mayuscula(titulo)
-    libro_apa = autor + " " + fecha + " " + titulo + ". "
+
+    # Formato de todo libro.
+    libro_apa = autor + " " + fecha + " " + titulo + ". " 
+    
+    # Checar que haya edición
+    if edicion_apa != "0":
+        libro_apa += edicion_apa
+    
+    libro_apa += editorial + ". "
+
+    # Checar que haya link
+    if link != "0":
+        libro_apa += link
+    # Checar que tenga autor para que no imprima 0
+    if autor == "0":
+        libro_apa = "Referencia no válida. El libro tiene que tener autor."
 
     return libro_apa
 
-def video(fecha, autor, titulo):
+def video(fecha, autor, titulo, link):
     '''
     Función que usa otras funciones para juntar la referencia de un video
     '''
     titulo = mayuscula(titulo)
-    # Pedir input del link y obligar que usuario escriba texto
-    while True:
-        link = input("\nPor favor escribe el link de tu fuente.\n")
-        if link == "":
-            print("Favor de no dejar vacio.")
-            continue
-        else:
-            break
-    video_apa = autor + " " + fecha + " " + titulo + ". [Video]." + link + "."
+
+    video_apa = autor + " " + fecha + " " + titulo + ". [Video]. " + link + "."
+
+    if autor == "0" or link == "0":
+        video_apa = "Referencia no válida. El video tiene que tener autor y un link."
 
     return video_apa
 
@@ -200,7 +257,7 @@ def video(fecha, autor, titulo):
 
 print("\n¡¡Bienvenido a Citatec!! Aquí podrás citar tus fuentes en formato APA\n")
 print("\nPor favor escribe con un número el tipo de fuente que quieres citar. \
-Un 1 para página web. Un 2 para libro. Un 3 para video. ")
+Un 1 para página web. Un 2 para libro. Un 3 para video. Un 4 para una imagen.")
 print("\nEste es un programa en desarrollo, por lo que sus funciones saldrán \
 semanalmente. También conforme pase el tiempo, habrá más tipo de fuentes. Gracias por su paciencia :) ")
 
@@ -219,17 +276,19 @@ while True:
         break
 
 # Datos de todo tipo de fuente
-año_usuario, mes_usuario, dia_usuario, nombre_usuario, apellido_usuario, titulo_usuario = inputs()
+año_usuario, mes_usuario, dia_usuario, nombre_usuario, apellido_usuario, titulo_usuario, link_usuario = inputs()
 
 fecha_final = fecha(año_usuario, mes_usuario, dia_usuario)
 autor_final = autor(nombre_usuario, apellido_usuario)
 
 if tipo_de_fuente == 1:
-    apa_final = web(fecha_final, autor_final, titulo_usuario)
+    apa_final = web_o_imagen(fecha_final, autor_final, titulo_usuario, link_usuario, tipo_de_fuente)
 elif tipo_de_fuente == 2:
-    apa_final = libro(fecha_final, autor_final, titulo_usuario)
+    apa_final = libro(fecha_final, autor_final, titulo_usuario, link_usuario)
 elif tipo_de_fuente == 3:
-    apa_final = video(fecha_final, autor_final, titulo_usuario)
+    apa_final = video(fecha_final, autor_final, titulo_usuario, link_usuario)
+elif tipo_de_fuente == 4:
+    apa_final = web_o_imagen(fecha_final, autor_final, titulo_usuario, link_usuario, tipo_de_fuente)
 
 # APA final. Función con web y video ya estan listos.
 print("\nTu APA final se vería así:", apa_final)
