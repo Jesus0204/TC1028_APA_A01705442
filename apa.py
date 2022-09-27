@@ -67,28 +67,35 @@ def inputs():
 
     # Iniciar la variable para que entre el ciclo, y las listas vacías
     multiples_autores = 1
-    nombre_input = []
-    apellido_input = []
+    autor_lista = []
 
     while multiples_autores == 1 or (multiples_autores <= -1 or multiples_autores >= 2):
+        nombre_y_apellido = []
         lista_nombre_input = input("\nEscribe el primer nombre del autor. Si no tiene escribe 0.\n")
         lista_apellido_input = input("\nEscribe el apellido del autor. Si no tiene escribe 0.\n")
         # Aceptar ambos 0
         if lista_nombre_input == "0" and lista_apellido_input == "0":
-            nombre_input.append(lista_nombre_input)
-            apellido_input.append(lista_apellido_input)
+            nombre_y_apellido.append(lista_nombre_input)
+            nombre_y_apellido.append(lista_apellido_input)
+            autor_lista.append(nombre_y_apellido)
+            multiples_autores = 0
+            continue
         # Como no puede haber citas son solo nombre de autor y sin apellido, solo aceptar el nombre con 0.
         elif lista_nombre_input == "0" and lista_apellido_input.isalpha():
-            nombre_input.append(lista_nombre_input)
-            apellido_input.append(lista_apellido_input)
+            nombre_y_apellido.append(lista_nombre_input)
+            nombre_y_apellido.append(lista_apellido_input)
+            autor_lista.append(nombre_y_apellido)
+            multiples_autores = 0
+            continue
         # No aceptar numeros aparte de 0
         elif (lista_nombre_input.isalpha() == False) or (lista_apellido_input.isalpha() == False):
             print("\nFavor de no dejar vacio y de no escribir un número que no sea 0. También no se pueden escribir espacios.")
             print("Si escribiste un nombre para el autor, pero 0 en el apellido, no es un autor válido. Favor de intentar de nuevo.")
             continue
         else: 
-            nombre_input.append(lista_nombre_input)
-            apellido_input.append(lista_apellido_input)
+            nombre_y_apellido.append(lista_nombre_input)
+            nombre_y_apellido.append(lista_apellido_input)
+            autor_lista.append(nombre_y_apellido)
         # Este snippet fue basado de https://stackoverflow.com/questions/5424716/how-to-check-if-string-input-is-a-number
         while True:
             try:
@@ -102,7 +109,7 @@ def inputs():
             else:
                 break
     
-    return (año_input, mes_input, dia_input, nombre_input, apellido_input, titulo_input, link_input)
+    return (año_input, mes_input, dia_input, autor_lista, titulo_input, link_input)
 
 '''Funciones que procesan datos como fechas o autores'''
 
@@ -147,28 +154,53 @@ def fecha_cita(año):
         fecha = "s.f."
     else:
         fecha = año
+
     return fecha
 
-def autor(nombre_lista, apellido_lista):
+def autor(autor_lista):
     '''
     Función que te regresa el autor en el formato que se usa en APA.
     Esto sin importar el tipo de fuente.
     '''
-    # Esto es solo mientras incorporo como formatear a más autores, aunque ya exista la lista con todos los autores.
-    nombre = nombre_lista[0]
-    apellido = apellido_lista[0]
-    # Mandar a convertir la palabra completa a mayúscula
+    # Esto es sirve para cuando digan que no hay autor o solo esta el apellido del autor, ya que ahí no hay necesidad de agregar más autores
+    nombre = autor_lista[0][0]
+    apellido = autor_lista[0][1]
     apellido_apa = mayuscula(apellido)
 
     # Preparar la variable por si no hay autor. Esto se da más en páginas web.
     if nombre == "0" and apellido == "0":
         autor_apa = "0"
-    # Para casos donde solo este el apellido
+    # Para casos donde solo este el apellido. Esto no pasa con varios autores, por lo que igual solo se usa el primero en la lista
     elif nombre == "0":
         autor_apa = (apellido_apa + ".")
     else:
-        nombre_apa = mayuscula(nombre)
-        autor_apa = (apellido_apa + ", " + nombre_apa + ".")
+        autor_apa = ""
+        # Lista con listas
+        for autor in range(len(autor_lista)):
+            # Si tiene más de 20 autores, este es el formato. No importan los demas autores por lo que se rompe.
+            if autor >= 19:
+                autor_apa += "... " + mayuscula(autor_lista[-1][1]) + ", " + mayuscula(autor_lista[-1][0][0]) + "."
+                break
+            numero_autor = ""
+            # Lista individual con nombre y apellido. Contar para abajo para poner el apellido primero, y después el nombre
+            for indice_n_y_a in range(1,-1,-1):
+                nombre_o_apellido = mayuscula(autor_lista[autor][indice_n_y_a])
+                # Siempre que es un apellido lleva coma.
+                if indice_n_y_a == 1:
+                    numero_autor += nombre_o_apellido + ", "
+                # Siempre que es nombre lleva un punto al final. 
+                elif indice_n_y_a == 0:
+                    # Agregar la primera letra solamente
+                    numero_autor += nombre_o_apellido[0] + "."
+            # El penúltimo autor lleva el símbolo de más
+            if autor == (len(autor_lista) - 2):
+                autor_apa += numero_autor + " & "
+            # Como el punto se pone por autor, ya no se agrega nada más en el último autor.
+            elif autor == (len(autor_lista) - 1):
+                autor_apa += numero_autor
+            # Agregar comas para todos los demás casos. 
+            else:
+                autor_apa += numero_autor + ", "  
 
     return autor_apa
 
@@ -188,22 +220,30 @@ def cita(año, autor_lista, fuente, organizacion):
     '''
     Función que regresa los diferentes tipos de cita que se insertan en el texto.
     '''
-    # Estas dos fuentes son iguales, y como no pueden tener organizaciones se juntan
     fecha_apa = fecha_cita(año)
     fecha_apa = str(fecha_apa)
-    autor = autor_lista[0]
+    # Solo hay 3 posibles citas, por lo que enumerarlas
+    if len(autor_lista) >= 3:
+        autor = autor_lista[0][1] + " et al."
+    elif len(autor_lista) == 2:
+        autor = autor_lista[0][1] + " & " + mayuscula(autor_lista[1][1])
+    else:
+        autor = autor_lista[0][1]
+    # Mandar a que sea mayúscula el primer apellido de autor
+    autor_apa = mayuscula(autor)
+
     if (fuente == 1 or fuente == 4):
         if autor == "0" and organizacion != "0":
             cita_parentesis = "(" + organizacion + ", " + fecha_apa + ")"
             cita_narrativa = organizacion + ", (" + fecha_apa + ")"
         elif autor != "0":
-            autor_apa = mayuscula(autor)
             cita_parentesis = "(" + autor_apa + ", " + fecha_apa + ")"
             cita_narrativa = autor_apa + ", (" + fecha_apa + ")"
         # Como el otro else no entra ahí, poner que pasa en caso de que no haya autor u organización.
         else:
             cita_parentesis = "Cita no válida. Tiene que haber autor u organización."
             cita_narrativa = "Cita no válida. Tiene que haber autor u organización."
+    # Estas dos fuentes son iguales, y como no pueden tener organizaciones se juntan
     elif (fuente == 2 or fuente == 3) and autor != "0":
         autor_apa = mayuscula(autor)
         cita_parentesis = "(" + autor_apa + ", " + fecha_apa + ")"
@@ -312,7 +352,6 @@ def video(fecha, autor, titulo, link):
 
     return video_apa
 
-
 '''Parte principal del programa'''
 
 print("\n¡¡Bienvenido a Citatec!! Aquí podrás citar tus fuentes en formato APA\n")
@@ -336,10 +375,10 @@ while True:
         break
 
 # Datos de todo tipo de fuente
-año_usuario, mes_usuario, dia_usuario, nombre_usuario, apellido_usuario, titulo_usuario, link_usuario = inputs()
+año_usuario, mes_usuario, dia_usuario, autor_usuario, titulo_usuario, link_usuario = inputs()
 
 fecha_final = fecha(año_usuario, mes_usuario, dia_usuario)
-autor_final = autor(nombre_usuario, apellido_usuario)
+autor_final = autor(autor_usuario)
 
 if tipo_de_fuente == 1:
     apa_final, organizacion_cita = web_o_imagen(fecha_final, autor_final, titulo_usuario, link_usuario, tipo_de_fuente)
@@ -369,10 +408,9 @@ while True:
     else:
         break
 
-
 if cita_decision == 1:
     # Llamar la función para todo tipo de fuente
-    cita_parentesis_final, cita_narrativa_final = cita(año_usuario, apellido_usuario, tipo_de_fuente, organizacion_cita)
+    cita_parentesis_final, cita_narrativa_final = cita(año_usuario, autor_usuario, tipo_de_fuente, organizacion_cita)
     print("\nHay dos formas de cita. La narrativa, que se pone directamente en el texto. Un ejemplo de esta es 'de acuerdo a Botello (2005)'.")
     print("La otra forma es la de parentesis, donde se copia y pega la información y directamente acabando el parentesis se pone. Un ejemplo es (Botello, 2005).")
     print("\nCita narrativa:", cita_narrativa_final)
