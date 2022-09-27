@@ -39,7 +39,7 @@ Pseudocódigo:
         dia = input("Escribe el dia.")
         fecha final = fecha(año, mes, dia)
 
-5. En el programa va a haver muchas funciones, pero tenerlas va a simplificar la vida para entender el programa y ejecutarlo fácilmente. Un ejemplo de cómo va a funcionar es el siguiente: la función del libro usa las funciones del inciso anterior para formatear el APA, donde los datos van a ser guardardados en una lista al final en orden (es lo que va a regresar la función). Esto va a permitir poder usar un for loop, para imprimir y enseñarle al usuario la referencia sin escribir muchas líneas de código. En resumen, va a haber funciones que formatean los elementos, y funciones que te juntan esos elementos en la referencia en una lista.
+5. En el programa va a haver muchas funciones, pero tenerlas va a simplificar la vida para entender el programa y ejecutarlo fácilmente. Un ejemplo de cómo va a funcionar es el siguiente: la función del libro usa las funciones del inciso anterior para formatear el APA, donde los datos van a ser guardardados en una variable (es lo que va a regresar la función). Lo que regrese cada función ya va estar con formato de APA, ya que se van a sumar todas las variables con el operador de +. En resumen, va a haber funciones que formatean los elementos, y funciones que te juntan esos elementos en la referencia en una lista.
 
 Pseudocódigo:
 
