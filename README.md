@@ -43,7 +43,7 @@ Pseudocódigo:
 
 Pseudocódigo:
 
-    apa = [Autor, fecha, pagina, link]
+    apa = Autor + fecha + pagina + link
 
 6. Estado final: Agradecerle al usuario y después de enseñar la referencia terminar el programa. El usuario ya tiene su referencia hecha :)
 
