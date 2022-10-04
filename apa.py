@@ -17,7 +17,7 @@ def mayuscula(palabra):
     # Use esta página web para saber cómo convertir de ASCII a texto y vice versa 
     # https://www.programiz.com/python-programming/examples/ascii-character 
 
-    # Si el usuario escrbió el apellido con minúscula, esto sirve para convertirlo a mayúscula
+    # Si el usuario escribió el apellido con minúscula, esto sirve para convertirlo a mayúscula
     palabra_ma = ord(palabra[0])
     if palabra_ma >= 97 and palabra_ma <= 122:
         palabra_ma -= 32
@@ -56,7 +56,8 @@ def inputs():
             # Este if solo es para imprimirle al usuario que no tiene que dejar vacio lo que escribe.
             if titulo_input == "":
                 print("Favor de no dejar vacio.")
-            # Poner el continue para volver a empezar el ciclo. Si el usuario escribió algo no pasa la condición de arriba; de otra forma pide el titulo de nuevo.
+            # Poner el continue para volver a empezar el ciclo. 
+            # Si el usuario escribió algo no pasa la condición de arriba; de otra forma pide el titulo de nuevo.
             continue
         link_input = input("\nPor favor escribe el link o DOI de tu fuente. Si no tiene (en el caso de libros) escribe 0.\n")
         if link_input == "":
@@ -68,27 +69,38 @@ def inputs():
     # Iniciar la variable para que entre el ciclo, y las listas vacías
     multiples_autores = 1
     autor_lista = []
+    # No permitir ciertos comportamientos del usuario con el counter
+    counter = 0
 
-    while multiples_autores == 1 or (multiples_autores <= -1 or multiples_autores >= 2):
+    while multiples_autores == 1:
         nombre_y_apellido = []
+        print("\nPor favor escribe los autores correspondientes. \
+            Si no se tiene un apellido o nombre, no se pueden agregar más autores.")
         lista_nombre_input = input("\nEscribe el primer nombre del autor. Si no tiene escribe 0.\n")
         lista_apellido_input = input("\nEscribe el apellido del autor. Si no tiene escribe 0.\n")
-        # Aceptar ambos 0
-        if lista_nombre_input == "0" and lista_apellido_input == "0":
-            nombre_y_apellido.append(lista_nombre_input)
-            nombre_y_apellido.append(lista_apellido_input)
-            autor_lista.append(nombre_y_apellido)
-            multiples_autores = 0
-            continue
+        # Solo aceptar estos casos en el primer autor. No tiene sentido que pongan un 0 si hay más de un autor.
+        if counter == 0:
+        # Aceptar ambos 0 solo si es el primer autor
+            if lista_nombre_input == "0" and lista_apellido_input == "0":
+                nombre_y_apellido.append(lista_nombre_input)
+                nombre_y_apellido.append(lista_apellido_input)
+                autor_lista.append(nombre_y_apellido)
+                multiples_autores = 0
+                continue
         # Como no puede haber citas son solo nombre de autor y sin apellido, solo aceptar el nombre con 0.
-        elif lista_nombre_input == "0" and lista_apellido_input.isalpha():
-            nombre_y_apellido.append(lista_nombre_input)
-            nombre_y_apellido.append(lista_apellido_input)
-            autor_lista.append(nombre_y_apellido)
-            multiples_autores = 0
-            continue
-        # No aceptar numeros aparte de 0
-        elif (lista_nombre_input.isalpha() == False) or (lista_apellido_input.isalpha() == False):
+            elif lista_nombre_input == "0" and lista_apellido_input.isalpha():
+                nombre_y_apellido.append(lista_nombre_input)
+                nombre_y_apellido.append(lista_apellido_input)
+                autor_lista.append(nombre_y_apellido)
+                multiples_autores = 0
+                continue
+        elif counter >= 1:
+            if lista_nombre_input == "0" or lista_apellido_input == "0":
+                print("\nEscribiste que hay más de un autor. En este caso ya no se puede escribir 0. Favor de intentar de nuevo.")
+                continue
+        # Empezar de nuevos los ifs, ya que siempre se tiene que revisar esta condición
+        # No aceptar numeros aparte de 0 
+        if (lista_nombre_input.isalpha() == False) or (lista_apellido_input.isalpha() == False):
             print("\nFavor de no dejar vacio y de no escribir un número que no sea 0. También no se pueden escribir espacios.")
             print("Si escribiste un nombre para el autor, pero 0 en el apellido, no es un autor válido. Favor de intentar de nuevo.")
             continue
@@ -96,10 +108,12 @@ def inputs():
             nombre_y_apellido.append(lista_nombre_input)
             nombre_y_apellido.append(lista_apellido_input)
             autor_lista.append(nombre_y_apellido)
+        counter += 1
         # Este snippet fue basado de https://stackoverflow.com/questions/5424716/how-to-check-if-string-input-is-a-number
         while True:
             try:
-                multiples_autores = int(input("\n¿Tu referencia tiene un autor más? Escribe 0 por si ya fue el ultimo autor, y 1 para para agregar a otro autor.\n"))
+                multiples_autores = int(input("\n¿Tu referencia tiene un autor más? \
+                Escribe 0 por si ya fue el ultimo autor, y 1 para para agregar a otro autor.\n"))
             except ValueError:
                 print("\nPor favor escribe un número :)")
                 continue
@@ -162,7 +176,8 @@ def autor(autor_lista):
     Función que te regresa el autor en el formato que se usa en APA.
     Esto sin importar el tipo de fuente.
     '''
-    # Esto es sirve para cuando digan que no hay autor o solo esta el apellido del autor, ya que ahí no hay necesidad de agregar más autores
+    # Esto es sirve para cuando digan que no hay autor o solo esta el apellido del autor, 
+    # ya que ahí no hay necesidad de agregar más autores
     nombre = autor_lista[0][0]
     apellido = autor_lista[0][1]
     apellido_apa = mayuscula(apellido)
@@ -306,7 +321,8 @@ def libro(fecha, autor, titulo, link):
         # Este snippet fue basado de https://stackoverflow.com/questions/5424716/how-to-check-if-string-input-is-a-number
         try:
             if edicion_input == "":
-                edicion_input = int(input("\nEscribe el numero de edicion de tu fuente. Si no tiene escribe 0 o un numero menor a 0.\n"))
+                edicion_input = int(input("\nEscribe el numero de edicion de tu fuente. \
+                    Si no tiene escribe 0 o un numero menor a 0.\n"))
         except ValueError:
             print("Por favor escribe un número :)")
             continue
@@ -368,8 +384,8 @@ while True:
     except ValueError:
         print("\nPor favor escribe un número :)")
         continue
-    if tipo_de_fuente == 0:
-        print("\n0 no es una opción válida. Favor de escribir otra.")
+    if tipo_de_fuente > 4 or tipo_de_fuente <= 0:
+        print("\nLos números negativos, el 0 y cualquiera mayor de 4 no es válido. Favor de escribir otra.")
         continue
     else:
         break
@@ -398,7 +414,8 @@ print("\nTu APA final se vería así:", apa_final)
 # Este snippet fue basado de https://stackoverflow.com/questions/5424716/how-to-check-if-string-input-is-a-number
 while True:
     try:
-        cita_decision = int(input("\nTe gustaría generar la cita? Esta es la que se pone directamente en el texto. Escribe 0 para no, y 1 para si.\n"))
+        cita_decision = int(input("\nTe gustaría generar la cita? Esta es la que se pone directamente en el texto. \
+        Escribe 0 para no, y 1 para si.\n"))
     except ValueError:
         print("\nPor favor escribe un número :)")
         continue
@@ -411,8 +428,10 @@ while True:
 if cita_decision == 1:
     # Llamar la función para todo tipo de fuente
     cita_parentesis_final, cita_narrativa_final = cita(año_usuario, autor_usuario, tipo_de_fuente, organizacion_cita)
-    print("\nHay dos formas de cita. La narrativa, que se pone directamente en el texto. Un ejemplo de esta es 'de acuerdo a Botello (2005)'.")
-    print("La otra forma es la de parentesis, donde se copia y pega la información y directamente acabando el parentesis se pone. Un ejemplo es (Botello, 2005).")
+    print("\nHay dos formas de cita. La narrativa, que se pone directamente en el texto. \
+        Un ejemplo de esta es 'de acuerdo a Botello (2005)'.")
+    print("La otra forma es la de parentesis, donde se copia y pega la información y directamente \
+        acabando el parentesis se pone. Un ejemplo es (Botello, 2005).")
     print("\nCita narrativa:", cita_narrativa_final)
     print("Cita de paréntesis:", cita_parentesis_final)
 
