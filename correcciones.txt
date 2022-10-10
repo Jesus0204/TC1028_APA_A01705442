@@ -1,0 +1,232 @@
+============================ Correción 1 =====================================
+
+Sub-Competencia: 
+  componente: plantea una situación problema que le permite aplicar y demostrar sus conocimientos de programación (avance 1)
+
+Error original: El pseudocódigo estaba muy poco detallado, por lo que lo detalle en el archivo de README. 
+
+Cambio realizado: Detalle los pasos a seguir de una forma más concreta. Agregué el siguiente pseudocódigo, aparte de información adicional. 
+
+Pseudocódigo:
+
+    Si tipo de fuente == 1:
+        apa = web()
+    Si tipo de fuente == 2:
+        apa = libro()
+    Si tipo de fuente == 3:
+        apa = video()
+        
+Pseudocódigo:
+
+    def web():
+        año = input("Escribe el año.")
+        mes = input("Escribe el mes.")
+        dia = input("Escribe el dia.")
+        fecha final = fecha(año, mes, dia)
+
+Líneas de código donde se ve la corrección: 13-55
+
+============================ Correción 2 =====================================
+
+Sub-Competencia: 
+  componente: aplica estructuras cíclicas para resolver un problema de manera eficiente (avance 5)
+
+Error original: Aunque si aplicaba ciclos para pedir los inputs, si el usuario cometía un error, te pedía toda la información otra vez, lo que puede ser tedioso para el usuario
+
+    while True:
+        try:
+            año_input = int(input("\nEscribe el año de tu fuente. Si no tiene escribe 0.\n"))
+            mes_input = int(input("\nEscribe el mes en forma numérica. Por ejemplo Enero es 1. Si no tiene escribe 0.\n"))
+            dia_input = int(input("\nEscribe el dia de tu fuente. Si no tiene escribe 0.\n"))
+        except ValueError:
+            print("Por favor escribe un número :)")
+            continue
+        else:
+            break
+
+Cambio realizado: Puse una condición donde solo vuelve a pedir cierto dato si está vacío. De otro modo si el usuario escribe una letra por ejemplo en el dia,
+solo te pide el día porque queda el úncio vacío
+
+        año_input = ""
+        mes_input = ""
+        dia_input = ""
+        titulo_input = ""
+        while True:
+            try:
+                if año_input == "":
+                      año_input = int(input("\nEscribe el año de tu fuente. Si no tiene escribe 0.\n"))
+                if mes_input == "":
+                      mes_input = int(input("\nEscribe el mes en forma numérica. Por ejemplo Enero es 1. Si no tiene escribe 0.\n"))
+                if dia_input == "":
+                      dia_input = int(input("\nEscribe el dia de tu fuente. Si no tiene escribe 0.\n"))
+            except ValueError:
+                print("Por favor escribe un número :)")
+                continue
+            # Si el usuario no escribio nada pasa esta condición
+            if titulo_input == "":
+                titulo_input = input("\nEscribe el titulo del artículo, trabajo u obra que estas citando.\n")
+                # Este if solo es para imprimirle al usuario que no tiene que dejar vacio lo que escribe.
+                if titulo_input == "":
+                    print("Favor de no dejar vacio.")
+                # Poner el continue para volver a empezar el ciclo. Si el usuario escribió algo no pasa la condición de arriba; de otra forma pide el titulo de nuevo.
+                continue
+            link_input = input("\nPor favor escribe el link o DOI de tu fuente. Si no tiene (en el caso de libros) escribe 0.\n")
+            if link_input == "":
+                print("Favor de no dejar vacio.")
+                continue
+            else:
+                break
+
+Líneas de código donde se ve la corrección: 37-64
+
+
+============================ Correción 3 =====================================
+
+Sub-Competencia: 
+  componente: usa la forma más a apropiada al problema para guardar los datos (listas, variable, tipo de dato, etc...) (avance 6 y avance 7)
+
+Error original: Al principio solo se podía guardar un autor pero al APA requiere más autores. Modifique el programa para usar listas, sin embargo solo 
+se podía agregar un autor por lo que no era la forma apropiada de guardar a información. 
+
+  # Iniciar la variable para que entre el ciclo, y las listas vacías
+    multiples_autores = 1
+    nombre_input = []
+    apellido_input = []
+
+    while multiples_autores == 1 or (multiples_autores <= -1 or multiples_autores >= 2):
+        lista_nombre_input = input("\nEscribe el primer nombre del autor. Si no tiene escribe 0.\n")
+        lista_apellido_input = input("\nEscribe el apellido del autor. Si no tiene escribe 0.\n")
+        if lista_nombre_input == "0" and lista_apellido_input == "0":
+            nombre_input.append(lista_nombre_input)
+            apellido_input.append(lista_apellido_input)
+        elif lista_nombre_input == "0" and lista_apellido_input.isalpha():
+            nombre_input.append(lista_nombre_input)
+            apellido_input.append(lista_apellido_input)
+       elif (lista_nombre_input.isalpha() == False) or (lista_apellido_input.isalpha() == False):
+            print("\nFavor de no dejar vacio y de no escribir un número que no sea 0. También no se pueden escribir espacios.")
+            print("Si escribiste un nombre para el autor, pero 0 en el apellido, no es un autor válido. Favor de intentar de nuevo.")
+            continue
+        else: 
+            break
+            nombre_input.append(lista_nombre_input)
+            apellido_input.append(lista_apellido_input)
+
+
+Cambio realizado: En vez de usar una lista, terminé usando una matriz para poder acceder a la información desde un solo lugar 
+    
+    multiples_autores = 1
+    autor_lista = []
+    
+    while multiples_autores == 1:
+        nombre_y_apellido = []
+        lista_nombre_input = input("\nEscribe el primer nombre del autor. Si no tiene escribe 0.\n")
+        lista_apellido_input = input("\nEscribe el apellido del autor. Si no tiene escribe 0.\n")
+        # Aceptar ambos 0
+        if lista_nombre_input == "0" and lista_apellido_input == "0":
+        nombre_y_apellido.append(lista_nombre_input)
+            nombre_y_apellido.append(lista_apellido_input)
+            autor_lista.append(nombre_y_apellido)
+            multiples_autores = 0
+            continue
+        # Como no puede haber citas son solo nombre de autor y sin apellido, solo aceptar el nombre con 0.
+        elif lista_nombre_input == "0" and lista_apellido_input.isalpha():
+            nombre_y_apellido.append(lista_nombre_input)
+            nombre_y_apellido.append(lista_apellido_input)
+            autor_lista.append(nombre_y_apellido)
+            multiples_autores = 0
+            continue
+        # No aceptar numeros aparte de 0
+        elif (lista_nombre_input.isalpha() == False) or (lista_apellido_input.isalpha() == False):
+            print("\nFavor de no dejar vacio y de no escribir un número que no sea 0. También no se pueden escribir espacios.")
+            print("Si escribiste un nombre para el autor, pero 0 en el apellido, no es un autor válido. Favor de intentar de nuevo.")
+            continue
+        else: 
+            nombre_y_apellido.append(lista_nombre_input)
+            nombre_y_apellido.append(lista_apellido_input)
+            autor_lista.append(nombre_y_apellido)
+
+Líneas de código donde se ve la corrección: 70 - 98
+
+============================ Correción 4 =====================================
+
+Sub-Competencia: 
+  componente: aplica estructuras condicionales para resolver un problema (avance 4)
+
+Error original: La corrección pasada sirvió mucho, sin emabrgo, por reglas del APA hay ciertas acciones que puedes hacer que no deberías. Al haber más 
+de un autor, no se puede poner 0 (que no hay autor) por lo que agregué esa condición al ciclo que usa las matrices. 
+
+    multiples_autores = 1
+    autor_lista = []
+    
+    while multiples_autores == 1:
+        nombre_y_apellido = []
+        lista_nombre_input = input("\nEscribe el primer nombre del autor. Si no tiene escribe 0.\n")
+        lista_apellido_input = input("\nEscribe el apellido del autor. Si no tiene escribe 0.\n")
+        # Aceptar ambos 0
+        if lista_nombre_input == "0" and lista_apellido_input == "0":
+        nombre_y_apellido.append(lista_nombre_input)
+            nombre_y_apellido.append(lista_apellido_input)
+            autor_lista.append(nombre_y_apellido)
+            multiples_autores = 0
+            continue
+        # Como no puede haber citas son solo nombre de autor y sin apellido, solo aceptar el nombre con 0.
+        elif lista_nombre_input == "0" and lista_apellido_input.isalpha():
+            nombre_y_apellido.append(lista_nombre_input)
+            nombre_y_apellido.append(lista_apellido_input)
+            autor_lista.append(nombre_y_apellido)
+            multiples_autores = 0
+            continue
+        # No aceptar numeros aparte de 0
+        elif (lista_nombre_input.isalpha() == False) or (lista_apellido_input.isalpha() == False):
+            print("\nFavor de no dejar vacio y de no escribir un número que no sea 0. También no se pueden escribir espacios.")
+            print("Si escribiste un nombre para el autor, pero 0 en el apellido, no es un autor válido. Favor de intentar de nuevo.")
+            continue
+        else: 
+            nombre_y_apellido.append(lista_nombre_input)
+            nombre_y_apellido.append(lista_apellido_input)
+            autor_lista.append(nombre_y_apellido)
+
+Cambio realizado: La parte del código que acepta los 0 lo puse solo cuando counter vale 0, para que bajo cualquier otro autor no acepte números. Es un
+ciclo largo por lo que es bastante código. 
+
+    while multiples_autores == 1:
+        nombre_y_apellido = []
+        print("\nPor favor escribe los autores correspondientes. \
+            Si no se tiene un apellido o nombre, no se pueden agregar más autores.")
+        lista_nombre_input = input("\nEscribe el primer nombre del autor. Si no tiene escribe 0.\n")
+        lista_apellido_input = input("\nEscribe el apellido del autor. Si no tiene escribe 0.\n")
+        # Solo aceptar estos casos en el primer autor. No tiene sentido que pongan un 0 si hay más de un autor.
+        if counter == 0:
+        # Aceptar ambos 0 solo si es el primer autor
+            if lista_nombre_input == "0" and lista_apellido_input == "0":
+                nombre_y_apellido.append(lista_nombre_input)
+                nombre_y_apellido.append(lista_apellido_input)
+                autor_lista.append(nombre_y_apellido)
+                multiples_autores = 0
+                continue
+            elif lista_nombre_input == "0" and lista_apellido_input.isalpha():
+                nombre_y_apellido.append(lista_nombre_input)
+                nombre_y_apellido.append(lista_apellido_input)
+                autor_lista.append(nombre_y_apellido)
+                multiples_autores = 0
+                continue
+        elif counter >= 1:
+            if lista_nombre_input == "0" or lista_apellido_input == "0":
+                print("\nEscribiste que hay más de un autor. En este caso ya no se puede escribir 0. Favor de intentar de nuevo.")
+                continue
+        # Empezar de nuevos los ifs, ya que siempre se tiene que revisar esta condición
+        # No aceptar numeros aparte de 0 
+        if (lista_nombre_input.isalpha() == False) or (lista_apellido_input.isalpha() == False):
+            print("\nFavor de no dejar vacio y de no escribir un número que no sea 0. También no se pueden escribir espacios.")
+            print("Si escribiste un nombre para el autor, pero 0 en el apellido, no es un autor válido. Favor de intentar de nuevo.")
+            continue
+        else: 
+            nombre_y_apellido.append(lista_nombre_input)
+            nombre_y_apellido.append(lista_apellido_input)
+            autor_lista.append(nombre_y_apellido)
+        counter += 1
+
+Líneas de código donde se ve la corrección: 82 - 111
+
+* Nota: Todas las demás "correcciones" fueron parte de avances conforme se fue desarrollando el programa y no era un error como tal (como el de funciones, por lo que no se 
+incluyó en este archivo. Aquí solo se incluyó lo que venía en la retroalimentación, o algún bug que me di cuenta que impedía el programa de funcionar. 
