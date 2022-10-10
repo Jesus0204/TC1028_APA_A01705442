@@ -249,5 +249,4 @@ ciclo largo por lo que es bastante código.
 
 Líneas de código donde se ve la corrección: 82 - 111
 
-* Nota: Todas las demás "correcciones" fueron parte de avances conforme se fue desarrollando el programa y no era un error como tal (como el de funciones, por lo que no se 
-incluyó en este archivo. Aquí solo se incluyó lo que venía en la retroalimentación, o algún bug que me di cuenta que impedía el programa de funcionar. 
+* Nota: Todas las demás "correcciones" fueron parte de avances conforme se fue desarrollando el programa y no era un error como tal (como el de funciones, por lo que no se incluyó en este archivo. Aquí solo se incluyó lo que venía en la retroalimentación, o algún bug que me di cuenta que impedía el programa de funcionar correctamente, por lo que no son tantas correcciones, pero si consideró que aprendí tanto de correcciones como cuando yo desarollaba el programa solo y me daba cueta de errores que pasaban durante el desarrollo. :)
