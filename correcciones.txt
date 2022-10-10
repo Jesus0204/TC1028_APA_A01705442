@@ -27,6 +27,27 @@ Pseudocódigo:
 Líneas de código donde se ve la corrección: 13-55
 
 ============================ Correción 2 =====================================
+Sub-Competencia: 
+  El estilo cumple con las normas y estándares enunciadas en el documento de PEP 8  (Revis[on y Final)
+
+Error original: En el formato de la fecha no puse el punto que debe llevar el APA, por lo que no es un componente de programación, más bien de estilo. 
+  
+  elif mes > 12 or dia > 31:
+        fecha_apa = "(Fecha no válida)"
+  elif mes == 0 and dia == 0:
+        fecha_apa = ("(" + año_apa + ")")
+
+Cambio realizado:
+
+  elif mes > 12 or dia > 31:
+      fecha_apa = "(Fecha no válida)."
+  elif mes == 0 and dia == 0:
+      fecha_apa = ("(" + año_apa + ").")
+
+Líneas de código donde se ve la corrección: 102 - 110 (En el avance 3)
+
+
+============================ Correción 3 =====================================
 
 Sub-Competencia: 
   componente: aplica estructuras cíclicas para resolver un problema de manera eficiente (avance 5)
@@ -80,7 +101,7 @@ solo te pide el día porque queda el úncio vacío
 Líneas de código donde se ve la corrección: 37-64
 
 
-============================ Correción 3 =====================================
+============================ Correción 4 =====================================
 
 Sub-Competencia: 
   componente: usa la forma más a apropiada al problema para guardar los datos (listas, variable, tipo de dato, etc...) (avance 6 y avance 7)
@@ -147,7 +168,7 @@ Cambio realizado: En vez de usar una lista, terminé usando una matriz para pode
 
 Líneas de código donde se ve la corrección: 70 - 98
 
-============================ Correción 4 =====================================
+============================ Correción 5 =====================================
 
 Sub-Competencia: 
   componente: aplica estructuras condicionales para resolver un problema (avance 4)
