@@ -28,7 +28,7 @@ Líneas de código donde se ve la corrección: 13-55
 
 ============================ Correción 2 =====================================
 Sub-Competencia: 
-  El estilo cumple con las normas y estándares enunciadas en el documento de PEP 8  (Revis[on y Final)
+  El estilo cumple con las normas y estándares enunciadas en el documento de PEP 8  (Revision y Final)
 
 Error original: En el formato de la fecha no puse el punto que debe llevar el APA, por lo que no es un componente de programación, más bien de estilo. 
   
@@ -173,7 +173,7 @@ Líneas de código donde se ve la corrección: 70 - 98
 Sub-Competencia: 
   componente: aplica estructuras condicionales para resolver un problema (avance 4)
 
-Error original: La corrección pasada sirvió mucho, sin emabrgo, por reglas del APA hay ciertas acciones que puedes hacer que no deberías. Al haber más 
+Error original: La corrección pasada sirvió mucho, sin embargo, por reglas del APA hay ciertas acciones que puedes hacer que no deberías. Al haber más 
 de un autor, no se puede poner 0 (que no hay autor) por lo que agregué esa condición al ciclo que usa las matrices. 
 
     multiples_autores = 1
@@ -248,5 +248,66 @@ ciclo largo por lo que es bastante código.
         counter += 1
 
 Líneas de código donde se ve la corrección: 82 - 111
+
+============================ Correción 6 =====================================
+
+Sub-Competencia: 
+  Incorpora y explica nuevas funciones en su progra e incluya su referencias al API de pythoon. (Revisión y Final)
+
+Error original: No estaba detallado que hacía cada función, al igual que no había ningún API. 
+
+  def mayuscula(palabra):
+      '''
+      Función que devuelve una palabra con la primera letra minúscula como mayúscula usando ASCII
+      '''
+
+Cambio realizado: Detalle en cada función qué es lo que hacía, al igual que ahora usé el API de random.
+
+  def mayuscula(palabra):
+    """
+    (Operadores, condicionales, funciones, ciclos, y cadenas)
+    Recibe: una palabra
+    Funcion que convierte una palabra con la primera letra minuscula como mayuscula usando ASCII
+    Devuelve: La palabra mayuscula
+    """
+    
+  def ejemplo():
+    """
+    (funciones, API random, listas)
+    Recibe: nada
+    Funcion que usando listas y random elige los elementos de una referencia.
+    Posteriormente se usan las funciones para darle formato y simplemente se regresa
+    Devuelve: El APA del un ejemplo usando random (string)
+    """
+    # Datos de entrada a escoger
+    titulos = ["Quesadillas", "La teoria cuantica", "I have the high ground", 
+            "Como usar random en Python", "¿Que hago en mi vida?", "¡Examen argumentativo!"]
+    links = ["https://quesadillas.com", "https://cuanticaenmivida.com","https://ihavethehighground.com", 
+            "https://randompython.com", "https://tipsdelavida.com", "https://examen.com"]
+    autores = [["Jesus", "Cedillo"], ["Benjamin", "Valdes"], ["Rodrigo", "Perez"],
+            ["Rebeca", "Blanco"], ["Julieta", "Galvan"], ["Erika", "Castañeda"]]
+
+    # Escoger con random los elementos. Puede que los titulos no coincidan con los links; Esto fue hecho adrede
+    d_365 = random.randrange(1800,2025,1)
+    mes = random.randrange(1,12,1)
+    dia = random.randrange(1,28,1)
+    titulo = random.choice(titulos)
+    link = random.choice(links)
+
+    # Para que la funcion de autor funcione, conservar la matriz aunque solo tenga una lista
+    autor_l = []
+    autor_l.append(random.choice(autores))
+
+    # Darle formato a estos dos elementos antes de juntar el APA
+    fecha_ejemplo = fecha(d_365, mes, dia)
+    autor_ejemplo = autor(autor_l)
+
+    # Juntar todo con los datos
+    apa_ejemplo = video(fecha_ejemplo,autor_ejemplo,titulo,link)
+
+    return apa_ejemplo
+
+Líneas de código donde se ve la corrección: 13-455
+
 
 * Nota: Todas las demás "correcciones" fueron parte de avances conforme se fue desarrollando el programa y no era un error como tal (como el de funciones, por lo que no se incluyó en este archivo. Aquí solo se incluyó lo que venía en la retroalimentación, o algún bug que me di cuenta que impedía el programa de funcionar correctamente, por lo que no son tantas correcciones, pero si consideró que aprendí tanto de correcciones como cuando yo desarollaba el programa solo y me daba cueta de errores que pasaban durante el desarrollo. :)
