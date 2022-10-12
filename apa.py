@@ -7,6 +7,8 @@ para que el usuario la pueda usar
 
 """Funcion auxiliares como inputs o de minúsculas a mayúsculas"""
 
+# Usa la libreria de random para crear el ejemplo
+import random
 
 def mayuscula(palabra):
     """
@@ -406,9 +408,51 @@ def video(fecha, autor, titulo, link):
 
     return video_apa
 
+"""Funcion de ejemplo de la referencia y cita"""
+
+def ejemplo():
+    """
+    (funciones, API random, listas)
+    Recibe: nada
+    Funcion que usando listas y random elige los elementos de una referencia.
+    Posteriormente se usan las funciones para darle formato y simplemente se regresa
+    Devuelve: El APA del un ejemplo usando random (string)
+    """
+    # Datos de entrada a escoger
+    titulos = ["Quesadillas", "La teoria cuantica", "I have the high ground", 
+            "Como usar random en Python", "¿Que hago en mi vida?", "¡Examen argumentativo!"]
+    links = ["https://quesadillas.com", "https://cuanticaenmivida.com","https://ihavethehighground.com", 
+            "https://randompython.com", "https://tipsdelavida.com", "https://examen.com"]
+    autores = [["Jesus", "Cedillo"], ["Benjamin", "Valdes"], ["Rodrigo", "Perez"],
+            ["Rebeca", "Blanco"], ["Julieta", "Galvan"], ["Erika", "Castañeda"]]
+    
+    # Escoger con random los elementos. Puede que los titulos no coincidan con los links; Esto fue hecho adrede
+    d_365 = random.randrange(1800,2025,1)
+    mes = random.randrange(1,12,1)
+    dia = random.randrange(1,28,1)
+    titulo = random.choice(titulos)
+    link = random.choice(links)
+
+    # Para que la funcion de autor funcione, conservar la matriz aunque solo tenga una lista
+    autor_l = []
+    autor_l.append(random.choice(autores))
+
+    # Darle formato a estos dos elementos antes de juntar el APA
+    fecha_ejemplo = fecha(d_365, mes, dia)
+    autor_ejemplo = autor(autor_l)
+
+    # Juntar todo con los datos
+    apa_ejemplo = video(fecha_ejemplo,autor_ejemplo,titulo,link)
+
+    return apa_ejemplo
+
 """Parte principal del programa"""
 
 print("\n¡¡Bienvenido a Citatec!! Aqui podrás citar tus fuentes en formato APA\n")
+
+ejemplo_v = ejemplo()
+print("Aqui hay un ejemplo de como se va a ver tu referencia despues de usar el citador:\n\n" + ejemplo_v)
+
 print("\nPor favor escribe con un numero el tipo de fuente que quieres citar. \n \
 \nUn 1 para pagina web.\nUn 2 para libro con un autor. \nUn 3 para video. \nUn 4 para una imagen.")
 
