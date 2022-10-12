@@ -53,3 +53,17 @@ Pseudocódigo:
     print("¡Gracias por usar el programa!")
     
 * Nota: El Pseudocódigo está muy simplificado y solo incluye un tipo de dato y en específico un tipo de fuente. Esto se hace para simplicidad. Todos los elementos van a llevar el orden de arriba :)
+
+### Random
+
+Para generar un ejemplo de la referencia, se usaron todas las funciones que se crearon anteriormente para darle formato a la referencia, y el API de random de python. La documentación está en la siguiente liga: https://docs.python.org/3/library/random.html#module-random. 
+Las dos funciones de random que se usaron fueron:
+
+     random.randrange(start, stop[, step])
+     random.choice(seq)
+     
+Randrange genera números, donde con las condiciones se generó una fecha totalmente aleatoria (año, mes y dia). El choice elige un elemento aleatorio de una lista, por lo que para el titulo, link y autores cree una lista con elementos predeterminados, y ya elige uno totalmente aleatorio. Por lo tanto cada vez que se corre el código sale una referencia diferente de ejemplo. Me dió curiosidad como usar el API de random y ahora ya lo sé. 
+
+### Referencias
+
+Python software foundation. (Octubre 11, 2022). Random — Generate pseudo-random numbers. https://docs.python.org/3/library/random.html#module-random
