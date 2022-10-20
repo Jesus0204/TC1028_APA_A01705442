@@ -10,6 +10,7 @@ para que el usuario la pueda usar
 # Usa la libreria de random para crear el ejemplo
 import random
 
+
 def mayuscula(palabra):
     """
     (Operadores, condicionales, funciones, ciclos, y cadenas)
@@ -17,20 +18,21 @@ def mayuscula(palabra):
     Funcion que convierte una palabra con la primera letra minuscula como mayuscula usando ASCII
     Devuelve: La palabra mayuscula
     """
-    # Use esta pagina web para saber como convertir de ASCII a texto y vice versa 
-    # https://www.programiz.com/python-programming/examples/ascii-character 
+    # Use esta pagina web para saber como convertir de ASCII a texto y vice versa
+    # https://www.programiz.com/python-programming/examples/ascii-character
 
     # Si el usuario escribio el apellido con minuscula, esto sirve para convertirlo a mayuscula
     palabra_ma = ord(palabra[0])
     if palabra_ma >= 97 and palabra_ma <= 122:
         palabra_ma -= 32
-    palabra_ma = chr(palabra_ma) 
+    palabra_ma = chr(palabra_ma)
 
     # Despues de convertir a mayuscula la primera letra, juntar las otras letras del apellido en una variable
     for letra in range(1, len(palabra)):
         palabra_ma += palabra[letra]
 
     return palabra_ma
+
 
 def decision_si_o_no():
     """
@@ -51,8 +53,9 @@ def decision_si_o_no():
             continue
         else:
             break
-    
+
     return decision
+
 
 def inputs():
     """
@@ -70,24 +73,29 @@ def inputs():
     while True:
         try:
             if d_365_input == "":
-                d_365_input = int(input("\nEscribe el year de tu fuente. Si no tiene escribe 0.\n"))
+                d_365_input = int(
+                    input("\nEscribe el year de tu fuente. Si no tiene escribe 0.\n"))
             if mes_input == "":
-                mes_input = int(input("\nEscribe el mes en forma numerica. Por ejemplo Enero es 1. Si no tiene escribe 0.\n"))
+                mes_input = int(input(
+                    "\nEscribe el mes en forma numerica. Por ejemplo Enero es 1. Si no tiene escribe 0.\n"))
             if dia_input == "":
-                dia_input = int(input("\nEscribe el dia de tu fuente. Si no tiene escribe 0.\n"))
+                dia_input = int(
+                    input("\nEscribe el dia de tu fuente. Si no tiene escribe 0.\n"))
         except ValueError:
             print("Por favor escribe un numero :)")
             continue
         # Si el usuario no escribio nada pasa esta condición
         if titulo_input == "":
-            titulo_input = input("\nEscribe el titulo del artículo, trabajo u obra que estas citando.\n")
+            titulo_input = input(
+                "\nEscribe el titulo del artículo, trabajo u obra que estas citando.\n")
             # Este if solo es para imprimirle al usuario que no tiene que dejar vacio lo que escribe.
             if titulo_input == "":
                 print("Favor de no dejar vacio.")
-            # Poner el continue para volver a empezar el ciclo. 
+            # Poner el continue para volver a empezar el ciclo.
             # Si el usuario escribio algo no pasa la condicion de arriba; de otra forma pide el titulo de nuevo.
             continue
-        link_input = input("\nPor favor escribe el link o DOI de tu fuente. Si no tiene (en el caso de libros) escribe 0.\n")
+        link_input = input(
+            "\nPor favor escribe el link o DOI de tu fuente. Si no tiene (en el caso de libros) escribe 0.\n")
         if link_input == "":
             print("Favor de no dejar vacio.")
             continue
@@ -104,11 +112,13 @@ def inputs():
         nombre_y_apellido = []
         print("\nPor favor escribe los autores correspondientes. \
             \nSolo se puede agregar mas de un autor cuando se tiene nombre y apellido.")
-        lista_nombre_input = input("\nEscribe el primer nombre del autor. Si no tiene escribe 0.\n")
-        lista_apellido_input = input("\nEscribe el apellido del autor. Si no tiene escribe 0.\n")
+        lista_nombre_input = input(
+            "\nEscribe el primer nombre del autor. Si no tiene escribe 0.\n")
+        lista_apellido_input = input(
+            "\nEscribe el apellido del autor. Si no tiene escribe 0.\n")
         # Solo aceptar estos casos en el primer autor. No tiene sentido que pongan un 0 si hay mas de un autor.
         if counter == 0:
-        # Aceptar ambos 0 solo si es el primer autor
+            # Aceptar ambos 0 solo si es el primer autor
             if lista_nombre_input == "0" and lista_apellido_input == "0":
                 nombre_y_apellido.append(lista_nombre_input)
                 nombre_y_apellido.append(lista_apellido_input)
@@ -124,15 +134,16 @@ def inputs():
                 continue
         elif counter >= 1:
             if lista_nombre_input == "0" or lista_apellido_input == "0":
-                print("\n\nEscribiste que hay mas de un autor. En este caso ya no se puede escribir 0. Favor de intentar de nuevo.\n")
+                print(
+                    "\n\nEscribiste que hay mas de un autor. En este caso ya no se puede escribir 0. Favor de intentar de nuevo.\n")
                 continue
         # Empezar de nuevos los ifs, ya que siempre se tiene que revisar esta condicion
-        # No aceptar numeros aparte de 0 
+        # No aceptar numeros aparte de 0
         if (lista_nombre_input.isalpha() == False) or (lista_apellido_input.isalpha() == False):
             print("\nFavor de no dejar vacio y de no escribir un numero que no sea 0. También no se pueden escribir espacios.")
             print("Si escribiste un nombre para el autor, pero 0 en el apellido, no es un autor valido. Favor de intentar de nuevo.")
             continue
-        else: 
+        else:
             nombre_y_apellido.append(lista_nombre_input)
             nombre_y_apellido.append(lista_apellido_input)
             autor_lista.append(nombre_y_apellido)
@@ -140,10 +151,12 @@ def inputs():
         print("\n¿Tu referencia tiene un autor más? \
                 \nEscribe 0 por si ya fue el ultimo autor, y 1 para para agregar a otro autor.\n")
         multiples_autores = decision_si_o_no()
-    
+
     return (d_365_input, mes_input, dia_input, autor_lista, titulo_input, link_input)
 
+
 '''Funciones que procesan datos como fechas o autores'''
+
 
 def fecha(d_365, mes, dia):
     """
@@ -153,14 +166,14 @@ def fecha(d_365, mes, dia):
     Regresa: La fecha con su formato en APA
     """
     # Crear una lista con todos los meses
-    meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", 
-    "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+    meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio",
+             "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
 
-    d_365_apa= str(d_365)
+    d_365_apa = str(d_365)
     mes_apa = ""
     # Usar un for loop y el indice de la lista de arriba para definir el mes
-    for nombre_mes in meses: 
-        if (meses.index(nombre_mes) + 1) == mes: 
+    for nombre_mes in meses:
+        if (meses.index(nombre_mes) + 1) == mes:
             mes_apa = nombre_mes
             break
     dia_apa = str(dia)
@@ -180,6 +193,7 @@ def fecha(d_365, mes, dia):
 
     return fecha_apa
 
+
 def fecha_cita(d_365):
     """
     (condicionales, funciones)
@@ -194,6 +208,7 @@ def fecha_cita(d_365):
 
     return fecha
 
+
 def autor(autor_lista):
     """
     (listas, listas anidadas, funciones, condicionales, operadores, cadenas, ciclos, ciclos anidados)
@@ -201,7 +216,7 @@ def autor(autor_lista):
     Funcion que te formatea el autor en APA.
     Devuelve: El autor con su formato
     """
-    # Esto es sirve para cuando digan que no hay autor o solo esta el apellido del autor, 
+    # Esto es sirve para cuando digan que no hay autor o solo esta el apellido del autor,
     # ya que ahi no hay necesidad de agregar mas autores
     nombre = autor_lista[0][0]
     apellido = autor_lista[0][1]
@@ -219,16 +234,18 @@ def autor(autor_lista):
         for autor in range(len(autor_lista)):
             # Si tiene mas de 20 autores, este es el formato. No importan los demas autores por lo que se rompe.
             if autor >= 19:
-                autor_apa += "... " + mayuscula(autor_lista[-1][1]) + ", " + mayuscula(autor_lista[-1][0][0]) + "."
+                autor_apa += "... " + \
+                    mayuscula(autor_lista[-1][1]) + ", " + \
+                    mayuscula(autor_lista[-1][0][0]) + "."
                 break
             numero_autor = ""
             # Lista individual con nombre y apellido. Contar para abajo para poner el apellido primero, y despues el nombre
-            for indice_n_y_a in range(1,-1,-1):
+            for indice_n_y_a in range(1, -1, -1):
                 nombre_o_apellido = mayuscula(autor_lista[autor][indice_n_y_a])
                 # Siempre que es un apellido lleva coma.
                 if indice_n_y_a == 1:
                     numero_autor += nombre_o_apellido + ", "
-                # Siempre que es nombre lleva un punto al final. 
+                # Siempre que es nombre lleva un punto al final.
                 elif indice_n_y_a == 0:
                     # Agregar la primera letra solamente
                     numero_autor += nombre_o_apellido[0] + "."
@@ -238,11 +255,12 @@ def autor(autor_lista):
             # Como el punto se pone por autor, ya no se agrega nada mas en el ultimo autor.
             elif autor == (len(autor_lista) - 1):
                 autor_apa += numero_autor
-            # Agregar comas para todos los demas casos. 
+            # Agregar comas para todos los demas casos.
             else:
-                autor_apa += numero_autor + ", "  
+                autor_apa += numero_autor + ", "
 
     return autor_apa
+
 
 def edicion(num_edicion):
     """
@@ -254,10 +272,11 @@ def edicion(num_edicion):
     edicion_str = str(num_edicion)
     if num_edicion > 0:
         edicion_final = "(" + edicion_str + "a ed.). "
-    else: 
+    else:
         edicion_final = "0"
-    
+
     return edicion_final
+
 
 def cita(d_365, autor_lista, fuente, organizacion):
     """
@@ -301,7 +320,9 @@ def cita(d_365, autor_lista, fuente, organizacion):
     # Como hay diferentes formas, le voy a dar al usuario ambos metodos
     return cita_parentesis, cita_narrativa
 
+
 '''Funciones que juntan la referencia por tipo de fuente'''
+
 
 def web_o_imagen(fecha, autor, titulo, link, tipo_fuente):
     """
@@ -328,7 +349,8 @@ def web_o_imagen(fecha, autor, titulo, link, tipo_fuente):
     elif tipo_fuente == 1:
         # Si hay una organizacion y un autor, ponerla al final de la cita.
         if autor != "0" and organizacion != "0":
-            web_apa = autor + " " + fecha + " " + titulo + ". " + organizacion + ". " + link + "."
+            web_apa = autor + " " + fecha + " " + titulo + \
+                ". " + organizacion + ". " + link + "."
         # Si no tiene autor hacer la organizacion el autor para que se ponga primero
         elif autor == "0":
             web_apa = organizacion + ". " + fecha + " " + titulo + ". " + link + "."
@@ -337,13 +359,17 @@ def web_o_imagen(fecha, autor, titulo, link, tipo_fuente):
             web_apa = autor + " " + fecha + " " + titulo + ". " + link + "."
     elif tipo_fuente == 4:
         if autor != "0" and organizacion != "0":
-            web_apa = autor + " " + fecha + " " + titulo + ". " + "[Imagen]. " + organizacion + ". " + link + "."
+            web_apa = autor + " " + fecha + " " + titulo + ". " + \
+                "[Imagen]. " + organizacion + ". " + link + "."
         elif autor == "0":
-            web_apa = organizacion + ". " + fecha + " " + titulo + ". " + "[Imagen]. " + link + "."
+            web_apa = organizacion + ". " + fecha + " " + \
+                titulo + ". " + "[Imagen]. " + link + "."
         elif organizacion == "0":
-            web_apa = autor + " " + fecha + " " + titulo + ". " + "[Imagen]. " + link + "."
-    
+            web_apa = autor + " " + fecha + " " + \
+                titulo + ". " + "[Imagen]. " + link + "."
+
     return web_apa, organizacion
+
 
 def libro(fecha, autor, titulo, link):
     """
@@ -363,11 +389,12 @@ def libro(fecha, autor, titulo, link):
         except ValueError:
             print("Por favor escribe un numero :)")
             continue
-        editorial_input = input("\nPor favor escribe el editorial del libro. Debe de estar en las primeras paginas.\n")
+        editorial_input = input(
+            "\nPor favor escribe el editorial del libro. Debe de estar en las primeras paginas.\n")
         if editorial_input == "":
             print("Favor de no dejar vacio.")
             continue
-        else: 
+        else:
             break
 
     edicion_apa = edicion(edicion_input)
@@ -375,12 +402,12 @@ def libro(fecha, autor, titulo, link):
     titulo = mayuscula(titulo)
 
     # Formato de todo libro.
-    libro_apa = autor + " " + fecha + " "  + titulo  + ". " 
-    
+    libro_apa = autor + " " + fecha + " " + titulo + ". "
+
     # Checar que haya edicion
     if edicion_apa != "0":
         libro_apa += edicion_apa
-    
+
     libro_apa += editorial + ". "
 
     # Checar que haya link
@@ -391,6 +418,7 @@ def libro(fecha, autor, titulo, link):
         libro_apa = "Referencia no valida. El libro tiene que tener autor."
 
     return libro_apa
+
 
 def video(fecha, autor, titulo, link):
     """
@@ -408,7 +436,9 @@ def video(fecha, autor, titulo, link):
 
     return video_apa
 
+
 """Funcion de ejemplo de la referencia y cita"""
+
 
 def ejemplo():
     """
@@ -419,17 +449,17 @@ def ejemplo():
     Devuelve: El APA del un ejemplo usando random (string)
     """
     # Datos de entrada a escoger
-    titulos = ["Quesadillas", "La teoria cuantica", "I have the high ground", 
-            "Como usar random en Python", "¿Que hago en mi vida?", "¡Examen argumentativo!"]
-    links = ["https://quesadillas.com", "https://cuanticaenmivida.com","https://ihavethehighground.com", 
-            "https://randompython.com", "https://tipsdelavida.com", "https://examen.com"]
+    titulos = ["Quesadillas", "La teoria cuantica", "I have the high ground",
+               "Como usar random en Python", "¿Que hago en mi vida?", "¡Examen argumentativo!"]
+    links = ["https://quesadillas.com", "https://cuanticaenmivida.com", "https://ihavethehighground.com",
+             "https://randompython.com", "https://tipsdelavida.com", "https://examen.com"]
     autores = [["Jesus", "Cedillo"], ["Benjamin", "Valdes"], ["Rodrigo", "Perez"],
-            ["Rebeca", "Blanco"], ["Julieta", "Galvan"], ["Erika", "Castañeda"]]
-    
+               ["Rebeca", "Blanco"], ["Julieta", "Galvan"], ["Erika", "Castañeda"]]
+
     # Escoger con random los elementos. Puede que los titulos no coincidan con los links; Esto fue hecho adrede
-    d_365 = random.randrange(1800,2025,1)
-    mes = random.randrange(1,12,1)
-    dia = random.randrange(1,28,1)
+    d_365 = random.randrange(1800, 2025, 1)
+    mes = random.randrange(1, 12, 1)
+    dia = random.randrange(1, 28, 1)
     titulo = random.choice(titulos)
     link = random.choice(links)
 
@@ -442,9 +472,10 @@ def ejemplo():
     autor_ejemplo = autor(autor_l)
 
     # Juntar todo con los datos
-    apa_ejemplo = video(fecha_ejemplo,autor_ejemplo,titulo,link)
+    apa_ejemplo = video(fecha_ejemplo, autor_ejemplo, titulo, link)
 
     return apa_ejemplo
+
 
 """Parte principal del programa"""
 
@@ -460,7 +491,8 @@ print("\nPor favor escribe con un numero el tipo de fuente que quieres citar. \n
 # Aqui obligo al usuario a escribir un numero para elegir el tipo de fuente
 while True:
     try:
-        tipo_de_fuente = int(input("\nElige el tipo de fuente que quieres citar: "))
+        tipo_de_fuente = int(
+            input("\nElige el tipo de fuente que quieres citar: "))
     except ValueError:
         print("\nPor favor escribe un numero :)")
         continue
@@ -477,7 +509,8 @@ fecha_final = fecha(d_365_usuario, mes_usuario, dia_usuario)
 autor_final = autor(autor_usuario)
 
 if tipo_de_fuente == 1:
-    apa_final, organizacion_cita = web_o_imagen(fecha_final, autor_final, titulo_usuario, link_usuario, tipo_de_fuente)
+    apa_final, organizacion_cita = web_o_imagen(
+        fecha_final, autor_final, titulo_usuario, link_usuario, tipo_de_fuente)
 elif tipo_de_fuente == 2:
     apa_final = libro(fecha_final, autor_final, titulo_usuario, link_usuario)
     # Para que no declare error el programa al pasar el parametro
@@ -486,7 +519,8 @@ elif tipo_de_fuente == 3:
     apa_final = video(fecha_final, autor_final, titulo_usuario, link_usuario)
     organizacion_cita = 0
 elif tipo_de_fuente == 4:
-    apa_final, organizacion_cita = web_o_imagen(fecha_final, autor_final, titulo_usuario, link_usuario, tipo_de_fuente)
+    apa_final, organizacion_cita = web_o_imagen(
+        fecha_final, autor_final, titulo_usuario, link_usuario, tipo_de_fuente)
 
 # APA final. Funcion con web y video ya estan listos.
 print("\nTu APA final se veria asi:", apa_final)
@@ -497,7 +531,8 @@ cita_decision = decision_si_o_no()
 
 if cita_decision == 1:
     # Llamar la funcion para todo tipo de fuente
-    cita_parentesis_final, cita_narrativa_final = cita(d_365_usuario, autor_usuario, tipo_de_fuente, organizacion_cita)
+    cita_parentesis_final, cita_narrativa_final = cita(
+        d_365_usuario, autor_usuario, tipo_de_fuente, organizacion_cita)
     print("\nHay dos formas de cita. La narrativa, que se pone directamente en el texto. \
         Un ejemplo de esta es 'de acuerdo a Botello (2005)'.")
     print("La otra forma es la de parentesis, donde se copia y pega la informacion y directamente \
